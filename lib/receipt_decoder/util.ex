@@ -1,0 +1,10 @@
+defmodule ReceiptDecoder.Util do
+  @moduledoc false
+
+  @doc false
+  def format_datetime(""), do: nil
+  def format_datetime(value) do
+    value
+    |> NaiveDateTime.from_iso8601!()
+  end
+end
