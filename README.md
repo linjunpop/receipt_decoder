@@ -3,6 +3,7 @@
 Decode iOS App receipt
 
 [![Build Status](https://travis-ci.org/linjunpop/receipt_decoder.svg?branch=master)](https://travis-ci.org/linjunpop/receipt_decoder)
+[![codebeat badge](https://codebeat.co/badges/55bc18a1-1ea8-4dda-b844-7e534c24fc66)](https://codebeat.co/projects/github-com-linjunpop-receipt_decoder-master)
 
 ## Installation
 
