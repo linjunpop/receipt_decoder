@@ -1,11 +1,15 @@
 defmodule ReceiptDecoder.Parser.App do
+  @moduledoc false
+
   alias ReceiptDecoder.Parser.IAP
   alias ReceiptDecoder.Util
 
+  @spec parse(keyword) :: map
   def parse(data) do
     data
     |> Enum.map(&do_parse/1)
     |> Enum.reject(fn {field, _} -> match?(:unknown, field) end)
+    |> into_map()
   end
 
   defp do_parse({:ReceiptAttribute, 0, _version, value}) do
@@ -50,5 +54,12 @@ defmodule ReceiptDecoder.Parser.App do
   end
   defp do_parse({:ReceiptAttribute, type, version, value}) do
     {:unknown, %{type: type, version: version, value: value}}
+  end
+
+  defp into_map(keyword_list) do
+    keyword_list
+    |> Keyword.delete(:in_app)
+    |> Enum.into(%{})
+    |> Map.merge(%{in_apps: Keyword.get_values(keyword_list, :in_app)})
   end
 end
