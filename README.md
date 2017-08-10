@@ -1,6 +1,8 @@
 # ReceiptDecoder
 
-**TODO: Add description**
+Decode iOS App receipt
+
+[![Build Status](https://travis-ci.org/linjunpop/receipt_decoder.svg?branch=master)](https://travis-ci.org/linjunpop/receipt_decoder)
 
 ## Installation
 
