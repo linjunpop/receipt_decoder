@@ -1,4 +1,8 @@
 defmodule ReceiptDecoder do
+  @moduledoc """
+  Decode iOS App receipt
+  """
+
   alias ReceiptDecoder.Extractor
   alias ReceiptDecoder.Parser
 
