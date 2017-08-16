@@ -13,6 +13,8 @@ defmodule ReceiptDecoder.Mixfile do
       description: description(),
       package: package(),
       deps: deps(),
+      source_url: "https://github.com/linjunpop/receipt_decoder",
+      homepage_url: "https://github.com/linjunpop/receipt_decoder",
       docs: [
         main: "ReceiptDecoder"
       ]
@@ -45,8 +47,6 @@ defmodule ReceiptDecoder.Mixfile do
       files: ["lib/receipt_decoder*", "src/ReceiptModule.{erl,hrl}", "mix.exs", "README*", "LICENSE"],
       maintainers: ["Jun Lin"],
       licenses: ["MIT"],
-      source_url: "https://github.com/linjunpop/receipt_decoder",
-      homepage_url: "https://github.com/linjunpop/receipt_decoder",
       links: %{
         "GitHub" => "https://github.com/linjunpop/receipt_decoder"
       }
