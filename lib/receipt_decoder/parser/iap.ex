@@ -2,13 +2,17 @@ defmodule ReceiptDecoder.Parser.IAP do
   @moduledoc false
 
   alias ReceiptDecoder.Util
+  alias ReceiptDecoder.IAPReceipt
 
   @spec parse(keyword) :: map
   def parse(data) do
-    data
-    |> Enum.map(&do_parse/1)
-    |> Enum.reject(fn {field, _} -> :unknown == field end)
-    |> Enum.into(%{})
+    attrs =
+      data
+      |> Enum.map(&do_parse/1)
+      |> Enum.reject(fn {field, _} -> :unknown == field end)
+      |> Enum.into(%{})
+
+    struct(IAPReceipt, attrs)
   end
 
   defp do_parse({:InAppAttribute, 1701, _version, value}) do

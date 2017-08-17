@@ -3,13 +3,17 @@ defmodule ReceiptDecoder.Parser.App do
 
   alias ReceiptDecoder.Parser.IAP
   alias ReceiptDecoder.Util
+  alias ReceiptDecoder.AppReceipt
 
   @spec parse(keyword) :: map
   def parse(data) do
-    data
-    |> Enum.map(&do_parse/1)
-    |> Enum.reject(fn {field, _} -> match?(:unknown, field) end)
-    |> into_map()
+    attrs =
+      data
+      |> Enum.map(&do_parse/1)
+      |> Enum.reject(fn {field, _} -> match?(:unknown, field) end)
+      |> into_map()
+
+    struct(AppReceipt, attrs)
   end
 
   defp do_parse({:ReceiptAttribute, 0, _version, value}) do
@@ -35,6 +39,7 @@ defmodule ReceiptDecoder.Parser.App do
   end
   defp do_parse({:ReceiptAttribute, 17, _version, value}) do
     {:ok, data} = :ReceiptModule.decode(:InAppReceipt, value)
+
     {:in_app, IAP.parse(data)}
   end
   defp do_parse({:ReceiptAttribute, 19, _version, value}) do

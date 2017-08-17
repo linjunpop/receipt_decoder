@@ -7,8 +7,8 @@ defmodule ReceiptDecoder.ParserTest do
     test "parse payload" do
       data = Parser.parse(payload())
 
-      assert Map.get(data, :application_version) == "1445"
-      assert length(Map.get(data, :in_apps)) == 15
+      assert data.application_version == "1445"
+      assert length(data.in_apps) == 15
     end
   end
 
