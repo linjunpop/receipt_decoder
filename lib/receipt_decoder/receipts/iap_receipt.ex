@@ -1,4 +1,8 @@
 defmodule ReceiptDecoder.IAPReceipt do
+  @moduledoc """
+  The struct represent an In-App Purchases Receipt
+  """
+
   defstruct [
     quantity: nil,
     product_id: nil,

@@ -1,4 +1,8 @@
 defmodule ReceiptDecoder.AppReceipt do
+  @moduledoc """
+  The struct represent an App Receipt
+  """
+
   defstruct [
     environment: nil,
     bundle_id: nil,
