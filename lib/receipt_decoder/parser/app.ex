@@ -5,7 +5,7 @@ defmodule ReceiptDecoder.Parser.App do
   alias ReceiptDecoder.Util
   alias ReceiptDecoder.AppReceipt
 
-  @spec parse(keyword) :: map
+  @spec parse(keyword) :: AppReceipt.t
   def parse(data) do
     attrs =
       data

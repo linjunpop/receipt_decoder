@@ -23,7 +23,7 @@ defmodule ReceiptDecoder.IAPReceipt do
     original_transaction_id: String.t,
     original_purchase_date: NaiveDateTime.t,
     expires_date: NaiveDateTime.t,
-    web_order_line_item_id: integer,
+    web_order_line_item_id: pos_integer,
     cancellation_date: NaiveDateTime.t
   }
 end
