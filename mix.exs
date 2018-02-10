@@ -8,8 +8,8 @@ defmodule ReceiptDecoder.Mixfile do
       app: :receipt_decoder,
       version: @version,
       elixir: "~> 1.3",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
       deps: deps(),
@@ -44,7 +44,13 @@ defmodule ReceiptDecoder.Mixfile do
   defp package do
     [
       name: :receipt_decoder,
-      files: ["lib/receipt_decoder*", "src/ReceiptModule.{erl,hrl}", "mix.exs", "README*", "LICENSE"],
+      files: [
+        "lib/receipt_decoder*",
+        "src/ReceiptModule.{erl,hrl}",
+        "mix.exs",
+        "README*",
+        "LICENSE"
+      ],
       maintainers: ["Jun Lin"],
       licenses: ["MIT"],
       links: %{

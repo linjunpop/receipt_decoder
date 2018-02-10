@@ -20,3 +20,6 @@ erl_crash.dump
 *.ez
 
 src/ReceiptModule.asn1db
+
+.vscode
+.elixir_ls

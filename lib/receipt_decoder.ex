@@ -36,12 +36,10 @@ defmodule ReceiptDecoder do
       213, 74, 210, 39, 101, 79, 47>>}}
   ```
   """
-  @spec decode(String.t) :: {:ok, AppReceipt.t} | {:error, any}
+  @spec decode(String.t()) :: {:ok, AppReceipt.t()} | {:error, any}
   def decode(base64_receipt) do
-    with(
-      {:ok, payload} <- Extractor.get_payload(base64_receipt),
-      data <- Parser.parse(payload)
-    ) do
+    with {:ok, payload} <- Extractor.get_payload(base64_receipt),
+         data <- Parser.parse(payload) do
       {:ok, data}
     else
       err -> err

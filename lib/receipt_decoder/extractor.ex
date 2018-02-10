@@ -1,7 +1,7 @@
 defmodule ReceiptDecoder.Extractor do
   @moduledoc false
 
-  @spec get_payload(String.t) :: {:ok, keyword} | {:error, any}
+  @spec get_payload(String.t()) :: {:ok, keyword} | {:error, any}
   def get_payload(base64_receipt) do
     encoded_payload =
       base64_receipt
@@ -34,7 +34,9 @@ defmodule ReceiptDecoder.Extractor do
 
   defp find_payload(data) do
     {
-      :ContentInfo, _, {
+      :ContentInfo,
+      _,
+      {
         :SignedData,
         :sdVer1,
         _,
