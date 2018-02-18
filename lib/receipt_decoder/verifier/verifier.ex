@@ -9,8 +9,6 @@ defmodule ReceiptDecoder.Verifier do
 
   require PublicKey
 
-  require Record
-
   @apple_root_public_key AppleRootCertificate.public_key()
   @wwdr_cert_policies_extension_oid {1, 2, 840, 113_635, 100, 6, 2, 1}
   @itunes_cert_marker_extension_oid {1, 2, 840, 113_635, 100, 6, 11, 1}
