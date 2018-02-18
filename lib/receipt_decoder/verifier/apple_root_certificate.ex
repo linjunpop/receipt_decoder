@@ -7,19 +7,23 @@ defmodule ReceiptDecoder.Verifier.AppleRootCertificate do
   @cert_filepath :receipt_decoder
                  |> :code.priv_dir()
                  |> Path.join("AppleIncRootCertificate.cer")
+  @external_resource @cert_filepath
 
-  def cert do
-    @cert_filepath
-    |> File.read!()
-    |> :public_key.pkix_decode_cert(:plain)
-  end
+  @cert @cert_filepath
+        |> File.read!()
+        |> :public_key.pkix_decode_cert(:plain)
 
   def public_key do
-    cert()
+    @cert
     |> PublicKey.certificate(:tbsCertificate)
     |> PublicKey.tbs_certificate(:subjectPublicKeyInfo)
     |> PublicKey.subject_public_key_info(:subjectPublicKey)
     |> decode_key()
+  end
+
+  def fingerprint do
+    public_key()
+    |> :public_key.ssh_hostkey_fingerprint()
   end
 
   defp decode_key(key) do

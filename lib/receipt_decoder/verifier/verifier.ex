@@ -20,9 +20,10 @@ defmodule ReceiptDecoder.Verifier do
   """
   @spec verify(tuple) :: :ok | {:error, any}
   def verify(receipt_payload) when is_tuple(receipt_payload) do
-    {[itunes_cert, wwdr_cert, _bundled_root_cert], signer} = destruct_receipt(receipt_payload)
+    {[itunes_cert, wwdr_cert, root_cert], signer} = destruct_receipt(receipt_payload)
 
-    with :ok <- verify_wwdr_cert(wwdr_cert),
+    with :ok <- verify_root_cert_fingerprint(root_cert),
+         :ok <- verify_wwdr_cert(wwdr_cert),
          :ok <- verify_wwdr_cert_policies_extension_oid(wwdr_cert),
          :ok <- verify_itunes_cert(itunes_cert, wwdr_cert),
          :ok <- verify_itunes_cert_policies_extension_oid(itunes_cert),
@@ -31,6 +32,21 @@ defmodule ReceiptDecoder.Verifier do
     else
       {:error, msg} ->
         {:error, msg}
+    end
+  end
+
+  defp verify_root_cert_fingerprint(root_cert) do
+    fingerprint =
+      root_cert
+      |> extract_public_key()
+      |> :public_key.ssh_hostkey_fingerprint()
+
+    case AppleRootCertificate.fingerprint() do
+      ^fingerprint ->
+        :ok
+
+      _ ->
+        {:error, :invalid_root_cert_fingerprint}
     end
   end
 
