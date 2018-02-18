@@ -4,19 +4,19 @@ defmodule ReceiptDecoder.VerifierTest do
   alias ReceiptDecoder.Extractor
   alias ReceiptDecoder.Verifier
 
-  describe "get_payload/1" do
-    test "decode receipt & returns the payload" do
-      base64_receipt = read_receipt_file("auto_renewable_receipt")
+  describe "verify/1" do
+    test "verify a valid receipt" do
+      base64_receipt = read_receipt_file("receipt")
 
       receipt = Extractor.decode_receipt(base64_receipt)
 
-      assert Verifier.verify(receipt)
+      assert :ok == Verifier.verify(receipt)
     end
   end
 
   defp read_receipt_file(filename) do
     "test/fixtures/#{filename}"
-    |> File.read!
+    |> File.read!()
     |> String.replace("\n", "")
   end
 end

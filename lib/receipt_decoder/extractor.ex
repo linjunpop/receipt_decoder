@@ -6,15 +6,34 @@ defmodule ReceiptDecoder.Extractor do
     encoded_payload =
       base64_receipt
       |> decode_receipt()
-      |> find_payload()
+      |> get_payload_data()
 
     :ReceiptModule.decode(:Payload, encoded_payload)
   end
 
+  @spec decode_receipt(String.t()) :: tuple
   def decode_receipt(base64_receipt) do
     base64_receipt
     |> wrap_pkcs7()
     |> decode_pkcs7()
+  end
+
+  def get_payload_data(receipt) do
+    {
+      :ContentInfo,
+      _,
+      {
+        :SignedData,
+        :sdVer1,
+        _,
+        {:ContentInfo, _, payload},
+        _,
+        :asn1_NOVALUE,
+        _
+      }
+    } = receipt
+
+    payload
   end
 
   defp wrap_pkcs7(base64_receipt) do
@@ -30,23 +49,5 @@ defmodule ReceiptDecoder.Extractor do
     |> :public_key.pem_decode()
     |> List.first()
     |> :public_key.pem_entry_decode()
-  end
-
-  defp find_payload(data) do
-    {
-      :ContentInfo,
-      _,
-      {
-        :SignedData,
-        :sdVer1,
-        _,
-        {:ContentInfo, _, payload},
-        _,
-        :asn1_NOVALUE,
-        _
-      }
-    } = data
-
-    payload
   end
 end
