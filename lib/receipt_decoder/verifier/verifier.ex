@@ -12,6 +12,8 @@ defmodule ReceiptDecoder.Verifier do
   require Record
 
   @apple_root_public_key AppleRootCertificate.public_key()
+  @wwdr_cert_policies_extension_oid {1, 2, 840, 113_635, 100, 6, 2, 1}
+  @itunes_cert_policies_extension_oid {1, 2, 840, 113_635, 100, 6, 11, 1}
 
   @doc """
   Verify the receipt payload
@@ -21,7 +23,9 @@ defmodule ReceiptDecoder.Verifier do
     {[itunes_cert, wwdr_cert, _bundled_root_cert], signer} = destruct_receipt(receipt_payload)
 
     with :ok <- verify_wwdr_cert(wwdr_cert),
+         :ok <- verify_wwdr_cert_policies_extension_oid(wwdr_cert),
          :ok <- verify_itunes_cert(itunes_cert, wwdr_cert),
+         :ok <- verify_itunes_cert_policies_extension_oid(itunes_cert),
          :ok <- verify_signature(signer, receipt_payload, itunes_cert) do
       :ok
     else
@@ -42,12 +46,24 @@ defmodule ReceiptDecoder.Verifier do
     end
   end
 
-  defp extract_public_key({:certificate, cert}) do
-    cert
-    |> PublicKey.certificate(:tbsCertificate)
-    |> PublicKey.tbs_certificate(:subjectPublicKeyInfo)
-    |> PublicKey.subject_public_key_info(:subjectPublicKey)
-    |> decode_public_key()
+  defp verify_wwdr_cert_policies_extension_oid(wwdr_cert) do
+    case find_matching_policies_extension(wwdr_cert, @wwdr_cert_policies_extension_oid) do
+      nil ->
+        {:error, :wwdr_cert_policies_extension_oid_mismatch}
+
+      _extension ->
+        :ok
+    end
+  end
+
+  defp verify_itunes_cert_policies_extension_oid(itunes_cert) do
+    case find_matching_policies_extension(itunes_cert, @itunes_cert_policies_extension_oid) do
+      nil ->
+        {:error, :itunes_cert_policies_extension_oid_mismatch}
+
+      _extension ->
+        :ok
+    end
   end
 
   defp verify_itunes_cert({:certificate, cert}, wwdr_cert) do
@@ -64,8 +80,25 @@ defmodule ReceiptDecoder.Verifier do
     end
   end
 
+  defp extract_public_key({:certificate, cert}) do
+    cert
+    |> PublicKey.certificate(:tbsCertificate)
+    |> PublicKey.tbs_certificate(:subjectPublicKeyInfo)
+    |> PublicKey.subject_public_key_info(:subjectPublicKey)
+    |> decode_public_key()
+  end
+
   defp decode_public_key(key) do
     :public_key.der_decode(:RSAPublicKey, key)
+  end
+
+  defp find_matching_policies_extension({:certificate, cert}, oid) do
+    cert
+    |> PublicKey.certificate(:tbsCertificate)
+    |> PublicKey.tbs_certificate(:extensions)
+    |> Enum.find(fn ext ->
+      oid === PublicKey.extension(ext, :extnID)
+    end)
   end
 
   defp verify_signature(signer, receipt, itunes_cert) do

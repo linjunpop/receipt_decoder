@@ -8,4 +8,5 @@ defmodule ReceiptDecoder.Verifier.PublicKey do
   defrecord :certificate, extract(:Certificate, from_lib: @lib)
   defrecord :tbs_certificate, extract(:TBSCertificate, from_lib: @lib)
   defrecord :subject_public_key_info, extract(:SubjectPublicKeyInfo, from_lib: @lib)
+  defrecord :extension, extract(:Extension, from_lib: @lib)
 end

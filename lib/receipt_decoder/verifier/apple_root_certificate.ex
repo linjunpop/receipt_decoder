@@ -1,7 +1,6 @@
 defmodule ReceiptDecoder.Verifier.AppleRootCertificate do
   @moduledoc false
 
-  require Record
   require ReceiptDecoder.Verifier.PublicKey
   alias ReceiptDecoder.Verifier.PublicKey
 
