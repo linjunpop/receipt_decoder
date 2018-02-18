@@ -9,7 +9,6 @@ defmodule ReceiptDecoder.Verifier do
 
   require PublicKey
 
-  @apple_root_public_key AppleRootCertificate.public_key()
   @wwdr_cert_policies_extension_oid {1, 2, 840, 113_635, 100, 6, 2, 1}
   @itunes_cert_marker_extension_oid {1, 2, 840, 113_635, 100, 6, 11, 1}
 
@@ -33,11 +32,10 @@ defmodule ReceiptDecoder.Verifier do
     end
   end
 
-  defp verify_root_cert_fingerprint(root_cert) do
-    fingerprint =
-      root_cert
-      |> extract_public_key()
-      |> :public_key.ssh_hostkey_fingerprint()
+  defp verify_root_cert_fingerprint({:certificate, root_cert}) do
+    certBin = :public_key.pkix_encode(:Certificate, root_cert, :plain)
+
+    fingerprint = :crypto.hash(:sha256, certBin)
 
     case AppleRootCertificate.fingerprint() do
       ^fingerprint ->
@@ -51,7 +49,7 @@ defmodule ReceiptDecoder.Verifier do
   defp verify_wwdr_cert({:certificate, cert}) do
     cert = :public_key.der_encode(:Certificate, cert)
 
-    case :public_key.pkix_verify(cert, @apple_root_public_key) do
+    case :public_key.pkix_verify(cert, AppleRootCertificate.public_key()) do
       true ->
         :ok
 
