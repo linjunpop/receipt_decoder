@@ -1,7 +1,14 @@
 defmodule ReceiptDecoder.Extractor do
-  @moduledoc false
+  @moduledoc """
+  Extract content of receipt
+  """
 
-  @spec get_payload(String.t()) :: {:ok, keyword} | {:error, any}
+  @type receipt_t :: {:ContentInfo, tuple(), tuple()}
+
+  @doc """
+  Get the decoded payload from `base64_receipt`.
+  """
+  @spec get_payload(String.t()) :: {:ok, list()} | {:error, any}
   def get_payload(base64_receipt) do
     encoded_payload =
       base64_receipt
@@ -11,13 +18,20 @@ defmodule ReceiptDecoder.Extractor do
     :ReceiptModule.decode(:Payload, encoded_payload)
   end
 
-  @spec decode_receipt(String.t()) :: tuple
+  @doc """
+  Decode Base64 encoded receipt
+  """
+  @spec decode_receipt(String.t()) :: receipt_t
   def decode_receipt(base64_receipt) do
     base64_receipt
     |> wrap_pkcs7()
     |> decode_pkcs7()
   end
 
+  @doc """
+  Get the raw encoded paylaod data
+  """
+  @spec get_payload_data(receipt_t) :: bitstring()
   def get_payload_data(receipt) do
     {
       :ContentInfo,

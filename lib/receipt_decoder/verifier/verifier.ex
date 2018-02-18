@@ -16,8 +16,8 @@ defmodule ReceiptDecoder.Verifier do
   @doc """
   Verify the receipt payload
   """
-  @spec verify(tuple) :: :ok | {:error, any}
-  def verify(receipt_payload) when is_tuple(receipt_payload) do
+  @spec verify(Extractor.receipt_t()) :: :ok | {:error, any}
+  def verify(receipt_payload) do
     {[itunes_cert, wwdr_cert, root_cert], signer} = destruct_receipt(receipt_payload)
 
     with :ok <- verify_root_cert_fingerprint(root_cert),
