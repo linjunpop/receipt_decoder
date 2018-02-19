@@ -13,7 +13,7 @@ defmodule ReceiptDecoder.Verifier do
   @itunes_cert_marker_extension_oid {1, 2, 840, 113_635, 100, 6, 11, 1}
 
   @doc """
-  Verify the receipt payload
+  Verify the receipt
   """
   @spec verify(Extractor.receipt_t()) :: :ok | {:error, any}
   def verify(receipt) do

@@ -39,7 +39,7 @@ defmodule ReceiptDecoder do
   """
   @spec decode(String.t()) :: {:ok, AppReceipt.t()} | {:error, any}
   def decode(base64_receipt) do
-    with receipt <- Extractor.extract_receipt(base64_receipt),
+    with receipt <- Extractor.decode_receipt(base64_receipt),
          :ok <- Verifier.verify(receipt),
          {:ok, payload} <- Extractor.extract_payload(receipt),
          {:ok, app_receipt} <- Parser.parse_payload(payload) do
