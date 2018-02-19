@@ -23,7 +23,7 @@ defmodule ReceiptDecoder.Verifier do
          :ok <- verify_wwdr_cert(wwdr_cert),
          :ok <- verify_wwdr_cert_policies_extension_oid(wwdr_cert),
          :ok <- verify_itunes_cert(itunes_cert, wwdr_cert),
-         :ok <- verify_itunes_cert_policies_extension_oid(itunes_cert),
+         :ok <- verify_itunes_cert_marker_extension_oid(itunes_cert),
          :ok <- verify_signature(signer, receipt, itunes_cert) do
       :ok
     else
@@ -68,7 +68,7 @@ defmodule ReceiptDecoder.Verifier do
     end
   end
 
-  defp verify_itunes_cert_policies_extension_oid(itunes_cert) do
+  defp verify_itunes_cert_marker_extension_oid(itunes_cert) do
     case find_matching_extension(itunes_cert, @itunes_cert_marker_extension_oid) do
       nil ->
         {:error, :itunes_cert_marker_extension_oid_mismatch}
