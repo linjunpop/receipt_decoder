@@ -16,15 +16,15 @@ defmodule ReceiptDecoder.Verifier do
   Verify the receipt payload
   """
   @spec verify(Extractor.receipt_t()) :: :ok | {:error, any}
-  def verify(receipt_payload) do
-    {[itunes_cert, wwdr_cert, root_cert], signer} = destruct_receipt(receipt_payload)
+  def verify(receipt) do
+    {[itunes_cert, wwdr_cert, root_cert], signer} = destruct_receipt(receipt)
 
     with :ok <- verify_root_cert_fingerprint(root_cert),
          :ok <- verify_wwdr_cert(wwdr_cert),
          :ok <- verify_wwdr_cert_policies_extension_oid(wwdr_cert),
          :ok <- verify_itunes_cert(itunes_cert, wwdr_cert),
          :ok <- verify_itunes_cert_policies_extension_oid(itunes_cert),
-         :ok <- verify_signature(signer, receipt_payload, itunes_cert) do
+         :ok <- verify_signature(signer, receipt, itunes_cert) do
       :ok
     else
       {:error, msg} ->
@@ -115,15 +115,17 @@ defmodule ReceiptDecoder.Verifier do
 
   defp verify_signature(signer, receipt, itunes_cert) do
     signature = get_signer_signature(signer)
-    payload = Extractor.get_payload_data(receipt)
     public_key = extract_public_key(itunes_cert)
 
-    case :public_key.verify(payload, :sha, signature, public_key) do
-      true ->
-        :ok
-
+    with {:ok, payload} <- Extractor.extract_payload(receipt),
+         true <- :public_key.verify(payload, :sha, signature, public_key) do
+      :ok
+    else
       false ->
         {:error, :invalid_signer_signature}
+
+      {:error, err} ->
+        {:error, err}
     end
   end
 

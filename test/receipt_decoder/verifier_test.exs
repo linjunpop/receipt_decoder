@@ -8,7 +8,7 @@ defmodule ReceiptDecoder.VerifierTest do
     test "verify a valid receipt" do
       base64_receipt = read_receipt_file("receipt")
 
-      receipt = Extractor.decode_receipt(base64_receipt)
+      receipt = Extractor.extract_receipt(base64_receipt)
 
       assert :ok == Verifier.verify(receipt)
     end

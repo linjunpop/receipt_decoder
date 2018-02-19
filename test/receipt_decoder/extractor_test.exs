@@ -3,19 +3,30 @@ defmodule ReceiptDecoder.ExtractorTest do
 
   alias ReceiptDecoder.Extractor
 
-  describe "get_payload/1" do
-    test "decode receipt & returns the payload" do
+  describe "extract_receipt/1" do
+    test "extract receipt from the pkcs7 container" do
       base64_receipt = read_receipt_file("auto_renewable_receipt")
 
-      {:ok, data} = Extractor.get_payload(base64_receipt)
+      receipt = Extractor.extract_receipt(base64_receipt)
 
-      assert {:ReceiptAttribute, 8, 1, <<22, 0>>} == List.first(data)
+      assert {:ContentInfo, _, _} = receipt
+    end
+  end
+
+  describe "extract_payload/1" do
+    test "extract payload from receipt" do
+      base64_receipt = read_receipt_file("auto_renewable_receipt")
+
+      receipt = Extractor.extract_receipt(base64_receipt)
+      result = Extractor.extract_payload(receipt)
+
+      assert {:ok, _payload} = result
     end
   end
 
   defp read_receipt_file(filename) do
     "test/fixtures/#{filename}"
-    |> File.read!
+    |> File.read!()
     |> String.replace("\n", "")
   end
 end

@@ -6,23 +6,10 @@ defmodule ReceiptDecoder.Extractor do
   @type receipt_t :: {:ContentInfo, tuple(), tuple()}
 
   @doc """
-  Get the decoded payload from `base64_receipt`.
-  """
-  @spec get_payload(String.t()) :: {:ok, list()} | {:error, any}
-  def get_payload(base64_receipt) do
-    encoded_payload =
-      base64_receipt
-      |> decode_receipt()
-      |> get_payload_data()
-
-    :ReceiptModule.decode(:Payload, encoded_payload)
-  end
-
-  @doc """
   Decode Base64 encoded receipt
   """
-  @spec decode_receipt(String.t()) :: receipt_t
-  def decode_receipt(base64_receipt) do
+  @spec extract_receipt(String.t()) :: receipt_t
+  def extract_receipt(base64_receipt) do
     base64_receipt
     |> wrap_pkcs7()
     |> decode_pkcs7()
@@ -31,23 +18,27 @@ defmodule ReceiptDecoder.Extractor do
   @doc """
   Get the raw encoded paylaod data
   """
-  @spec get_payload_data(receipt_t) :: bitstring()
-  def get_payload_data(receipt) do
-    {
-      :ContentInfo,
-      _,
+  @spec extract_payload(receipt_t) :: {:ok, bitstring()} | {:error, any}
+  def extract_payload(receipt) do
+    case receipt do
       {
-        :SignedData,
-        :sdVer1,
+        :ContentInfo,
         _,
-        {:ContentInfo, _, payload},
-        _,
-        :asn1_NOVALUE,
-        _
-      }
-    } = receipt
+        {
+          :SignedData,
+          :sdVer1,
+          _,
+          {:ContentInfo, _, payload},
+          _,
+          :asn1_NOVALUE,
+          _
+        }
+      } ->
+        {:ok, payload}
 
-    payload
+      _ ->
+        {:error, :payload_not_found}
+    end
   end
 
   defp wrap_pkcs7(base64_receipt) do
