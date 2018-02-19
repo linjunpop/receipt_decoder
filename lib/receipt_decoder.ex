@@ -5,6 +5,7 @@ defmodule ReceiptDecoder do
 
   alias ReceiptDecoder.Extractor
   alias ReceiptDecoder.Parser
+  alias ReceiptDecoder.Verifier
   alias ReceiptDecoder.AppReceipt
 
   @doc """
@@ -38,9 +39,11 @@ defmodule ReceiptDecoder do
   """
   @spec decode(String.t()) :: {:ok, AppReceipt.t()} | {:error, any}
   def decode(base64_receipt) do
-    with {:ok, payload} <- Extractor.get_payload(base64_receipt),
-         data <- Parser.parse(payload) do
-      {:ok, data}
+    with receipt <- Extractor.decode_receipt(base64_receipt),
+         :ok <- Verifier.verify(receipt),
+         {:ok, payload} <- Extractor.extract_payload(receipt),
+         {:ok, app_receipt} <- Parser.parse_payload(payload) do
+      {:ok, app_receipt}
     else
       err -> err
     end

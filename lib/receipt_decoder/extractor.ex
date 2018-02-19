@@ -1,20 +1,44 @@
 defmodule ReceiptDecoder.Extractor do
-  @moduledoc false
+  @moduledoc """
+  Extract content from the receipt
+  """
 
-  @spec get_payload(String.t()) :: {:ok, keyword} | {:error, any}
-  def get_payload(base64_receipt) do
-    encoded_payload =
-      base64_receipt
-      |> decode_receipt()
-      |> find_payload()
+  @type receipt_t :: {:ContentInfo, tuple(), tuple()}
 
-    :ReceiptModule.decode(:Payload, encoded_payload)
-  end
-
+  @doc """
+  Decode the Base64-encoded receipt
+  """
+  @spec decode_receipt(String.t()) :: receipt_t
   def decode_receipt(base64_receipt) do
     base64_receipt
     |> wrap_pkcs7()
     |> decode_pkcs7()
+  end
+
+  @doc """
+  Extract the payload from receipt
+  """
+  @spec extract_payload(receipt_t) :: {:ok, bitstring()} | {:error, any}
+  def extract_payload(receipt) do
+    case receipt do
+      {
+        :ContentInfo,
+        _,
+        {
+          :SignedData,
+          :sdVer1,
+          _,
+          {:ContentInfo, _, payload},
+          _,
+          :asn1_NOVALUE,
+          _
+        }
+      } ->
+        {:ok, payload}
+
+      _ ->
+        {:error, :payload_not_found}
+    end
   end
 
   defp wrap_pkcs7(base64_receipt) do
@@ -30,23 +54,5 @@ defmodule ReceiptDecoder.Extractor do
     |> :public_key.pem_decode()
     |> List.first()
     |> :public_key.pem_entry_decode()
-  end
-
-  defp find_payload(data) do
-    {
-      :ContentInfo,
-      _,
-      {
-        :SignedData,
-        :sdVer1,
-        _,
-        {:ContentInfo, _, payload},
-        _,
-        :asn1_NOVALUE,
-        _
-      }
-    } = data
-
-    payload
   end
 end
