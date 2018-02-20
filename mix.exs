@@ -17,7 +17,8 @@ defmodule ReceiptDecoder.Mixfile do
       homepage_url: "https://github.com/linjunpop/receipt_decoder",
       docs: [
         main: "ReceiptDecoder"
-      ]
+      ],
+      dialyzer: [plt_add_apps: [:mix, :public_key, :asn1]]
     ]
   end
 
