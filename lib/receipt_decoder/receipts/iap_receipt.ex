@@ -11,7 +11,8 @@ defmodule ReceiptDecoder.IAPReceipt do
             original_purchase_date: nil,
             expires_date: nil,
             web_order_line_item_id: nil,
-            cancellation_date: nil
+            cancellation_date: nil,
+            is_in_intro_offer_period: nil
 
   @type t :: %__MODULE__{
           quantity: non_neg_integer,
@@ -22,6 +23,7 @@ defmodule ReceiptDecoder.IAPReceipt do
           original_purchase_date: NaiveDateTime.t(),
           expires_date: NaiveDateTime.t(),
           web_order_line_item_id: pos_integer,
-          cancellation_date: NaiveDateTime.t()
+          cancellation_date: NaiveDateTime.t(),
+          is_in_intro_offer_period: integer()
         }
 end

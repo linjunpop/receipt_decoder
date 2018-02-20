@@ -69,6 +69,12 @@ defmodule ReceiptDecoder.Parser.IAP do
     {:cancellation_date, Util.format_datetime(v)}
   end
 
+  defp do_parse({:InAppAttribute, 1719, _version, value}) do
+    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
+
+    {:is_in_intro_offer_period, v |> :crypto.bytes_to_integer()}
+  end
+
   defp do_parse({:InAppAttribute, type, version, value}) do
     {:unknown, %{type: type, version: version, value: value}}
   end
