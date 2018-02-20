@@ -7,7 +7,7 @@ defmodule ReceiptDecoder.ExtractorTest do
     test "extract receipt from the pkcs7 container" do
       base64_receipt = read_receipt_file("auto_renewable_receipt")
 
-      receipt = Extractor.decode_receipt(base64_receipt)
+      {:ok, receipt} = Extractor.decode_receipt(base64_receipt)
 
       assert {:ContentInfo, _, _} = receipt
     end
@@ -17,7 +17,7 @@ defmodule ReceiptDecoder.ExtractorTest do
     test "extract payload from receipt" do
       base64_receipt = read_receipt_file("auto_renewable_receipt")
 
-      receipt = Extractor.decode_receipt(base64_receipt)
+      {:ok, receipt} = Extractor.decode_receipt(base64_receipt)
       result = Extractor.extract_payload(receipt)
 
       assert {:ok, _payload} = result

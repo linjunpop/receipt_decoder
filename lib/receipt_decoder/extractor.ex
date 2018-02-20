@@ -8,7 +8,7 @@ defmodule ReceiptDecoder.Extractor do
   @doc """
   Decode the Base64-encoded receipt
   """
-  @spec decode_receipt(String.t()) :: receipt_t
+  @spec decode_receipt(String.t()) :: {:ok, receipt_t} | {:error, any}
   def decode_receipt(base64_receipt) do
     base64_receipt
     |> wrap_pkcs7()
@@ -50,9 +50,16 @@ defmodule ReceiptDecoder.Extractor do
   end
 
   defp decode_pkcs7(pkcs7_pem) do
-    pkcs7_pem
-    |> :public_key.pem_decode()
-    |> List.first()
-    |> :public_key.pem_entry_decode()
+    try do
+      entry =
+        pkcs7_pem
+        |> :public_key.pem_decode()
+        |> List.first()
+        |> :public_key.pem_entry_decode()
+
+      {:ok, entry}
+    rescue
+      _ -> {:error, :invalid_receipt}
+    end
   end
 end

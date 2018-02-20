@@ -20,6 +20,12 @@ defmodule ReceiptDecoderTest do
       assert %ReceiptDecoder.AppReceipt{} = data
       assert %ReceiptDecoder.IAPReceipt{} = data.in_apps |> List.first()
     end
+
+    test "decode a invalid string" do
+      {:error, error} = ReceiptDecoder.decode("foobar")
+
+      assert error == :invalid_receipt
+    end
   end
 
   defp read_receipt_file(filename) do
