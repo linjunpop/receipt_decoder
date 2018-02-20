@@ -2,8 +2,8 @@ defmodule ReceiptDecoder.Parser.App do
   @moduledoc false
 
   alias ReceiptDecoder.Parser.IAP
-  alias ReceiptDecoder.Util
   alias ReceiptDecoder.AppReceipt
+  alias ReceiptDecoder.Parser.Helper
 
   @spec parse(keyword) :: AppReceipt.t()
   def parse(data) do
@@ -17,21 +17,15 @@ defmodule ReceiptDecoder.Parser.App do
   end
 
   defp do_parse({:ReceiptAttribute, 0, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:environment, v}
+    {:environment, Helper.extract_string(value)}
   end
 
   defp do_parse({:ReceiptAttribute, 2, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:bundle_id, v}
+    {:bundle_id, Helper.extract_string(value)}
   end
 
   defp do_parse({:ReceiptAttribute, 3, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:application_version, v}
+    {:application_version, Helper.extract_string(value)}
   end
 
   defp do_parse({:ReceiptAttribute, 4, _version, value}) do
@@ -49,21 +43,15 @@ defmodule ReceiptDecoder.Parser.App do
   end
 
   defp do_parse({:ReceiptAttribute, 19, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:original_application_version, v}
+    {:original_application_version, Helper.extract_string(value)}
   end
 
   defp do_parse({:ReceiptAttribute, 12, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:creation_date, Util.format_datetime(v)}
+    {:creation_date, Helper.extract_datetime(value)}
   end
 
   defp do_parse({:ReceiptAttribute, 21, _version, value}) do
-    <<_::bytes-size(1), len::integer-size(8), v::bytes-size(len)>> = value
-
-    {:expiration_date, Util.format_datetime(v)}
+    {:expiration_date, Helper.extract_datetime(value)}
   end
 
   defp do_parse({:ReceiptAttribute, type, version, value}) do
