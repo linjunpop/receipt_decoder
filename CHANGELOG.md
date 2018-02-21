@@ -2,6 +2,8 @@
 
 ## master
 
+## v0.3.0
+
 * Added `ReceiptDecoder.Verifier` to verify the the receipt,
   this would let a invalid receipt failed to decode.
 * Added new `is_in_intro_offer_period` field to IAP receipt.
