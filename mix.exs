@@ -15,9 +15,7 @@ defmodule ReceiptDecoder.Mixfile do
       deps: deps(),
       source_url: "https://github.com/linjunpop/receipt_decoder",
       homepage_url: "https://github.com/linjunpop/receipt_decoder",
-      docs: [
-        main: "ReceiptDecoder"
-      ],
+      docs: docs(),
       dialyzer: [plt_add_apps: [:mix, :public_key, :asn1]]
     ]
   end
@@ -59,6 +57,23 @@ defmodule ReceiptDecoder.Mixfile do
       links: %{
         "GitHub" => "https://github.com/linjunpop/receipt_decoder"
       }
+    ]
+  end
+
+  defp docs do
+    [
+      main: "ReceiptDecoder",
+      groups_for_modules: [
+        Core: [
+          ReceiptDecoder.Extractor,
+          ReceiptDecoder.Verifier,
+          ReceiptDecoder.Parser
+        ],
+        Data: [
+          ReceiptDecoder.AppReceipt,
+          ReceiptDecoder.IAPReceipt
+        ]
+      ]
     ]
   end
 end

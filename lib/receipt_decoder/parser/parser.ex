@@ -1,9 +1,14 @@
 defmodule ReceiptDecoder.Parser do
-  @moduledoc false
+  @moduledoc """
+  The Payload Parser
+  """
 
   alias ReceiptDecoder.Parser.App
   alias ReceiptDecoder.AppReceipt
 
+  @doc """
+  Parse the payload, return a parsed `ReceiptDecoder.AppReceipt` struct.
+  """
   @spec parse_payload(bitstring()) :: {:ok, AppReceipt.t()} | {:error, any}
   def parse_payload(payload_data) do
     case decode_payload(payload_data) do
