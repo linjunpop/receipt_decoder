@@ -22,9 +22,9 @@ defmodule ReceiptDecoder.Verifier.AppleRootCertificate do
   end
 
   def fingerprint do
-    certBin = :public_key.pkix_encode(:Certificate, @cert, :plain)
+    cert_bin = :public_key.pkix_encode(:Certificate, @cert, :plain)
 
-    :crypto.hash(:sha256, certBin)
+    :crypto.hash(:sha256, cert_bin)
   end
 
   defp decode_key(key) do

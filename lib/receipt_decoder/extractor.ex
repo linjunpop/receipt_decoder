@@ -50,16 +50,14 @@ defmodule ReceiptDecoder.Extractor do
   end
 
   defp decode_pkcs7(pkcs7_pem) do
-    try do
-      entry =
-        pkcs7_pem
-        |> :public_key.pem_decode()
-        |> List.first()
-        |> :public_key.pem_entry_decode()
+    entry =
+      pkcs7_pem
+      |> :public_key.pem_decode()
+      |> List.first()
+      |> :public_key.pem_entry_decode()
 
-      {:ok, entry}
-    rescue
-      _ -> {:error, :invalid_receipt}
-    end
+    {:ok, entry}
+  rescue
+    _ -> {:error, :invalid_receipt}
   end
 end
