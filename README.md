@@ -28,6 +28,8 @@ ReceiptDecoder.decode(BASE64_ENCODED_RECEIPT)
 
 Please view the detailed documentation at [https://hexdocs.pm/receipt_decoder](https://hexdocs.pm/receipt_decoder).
 
+Or see it in action: [http://receipt-viewer.linjun.me](http://receipt-viewer.linjun.me)
+
 ## Changes
 
 See [CHANGELOG.md](CHANGELOG.md)
