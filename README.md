@@ -26,7 +26,7 @@ ReceiptDecoder.decode(BASE64_ENCODED_RECEIPT)
 # {:ok, %ReceiptDecoder.AppReceipt{...}}
 ```
 
-Please view the detailed documentation at [https://hexdocs.pm/receipt_verifier](https://hexdocs.pm/receipt_verifier).
+Please view the detailed documentation at [https://hexdocs.pm/receipt_decoder](https://hexdocs.pm/receipt_decoder).
 
 ## Changes
 
