@@ -35,3 +35,7 @@ See [CHANGELOG.md](CHANGELOG.md)
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/linjunpop/receipt_decoder.
+
+## See also
+
+- [ReceiptVerifier](https://github.com/linjunpop/receipt_verifier) - verify the receipt with App Store
