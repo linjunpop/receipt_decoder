@@ -22,7 +22,8 @@ defmodule ReceiptDecoder.Parser.Helper do
   defp format_datetime(""), do: nil
 
   defp format_datetime(value) do
-    value
-    |> NaiveDateTime.from_iso8601!()
+    with {:ok, datetime, 0} <- DateTime.from_iso8601(value) do
+      datetime
+    end
   end
 end

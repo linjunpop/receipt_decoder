@@ -18,12 +18,12 @@ defmodule ReceiptDecoder.IAPReceipt do
           quantity: non_neg_integer,
           product_id: String.t(),
           transaction_id: String.t(),
-          purchase_date: NaiveDateTime.t(),
+          purchase_date: DateTime.t(),
           original_transaction_id: String.t(),
-          original_purchase_date: NaiveDateTime.t(),
-          expires_date: NaiveDateTime.t(),
+          original_purchase_date: DateTime.t(),
+          expires_date: DateTime.t(),
           web_order_line_item_id: pos_integer,
-          cancellation_date: NaiveDateTime.t(),
+          cancellation_date: DateTime.t(),
           is_in_intro_offer_period: integer()
         }
 end

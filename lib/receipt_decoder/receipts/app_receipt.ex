@@ -21,7 +21,7 @@ defmodule ReceiptDecoder.AppReceipt do
           sha1_hash: String.t(),
           in_apps: [ReceiptDecoder.IAPReceipt.t()],
           original_application_version: String.t(),
-          creation_date: NaiveDateTime.t(),
-          expiration_date: NaiveDateTime.t()
+          creation_date: DateTime.t(),
+          expiration_date: DateTime.t()
         }
 end
