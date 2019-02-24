@@ -31,7 +31,7 @@ defmodule ReceiptDecoder.Mixfile do
   defp deps do
     [
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.15", only: [:dev, :docs]},
       {:benchee, "~> 0.11", only: [:dev, :test]}
     ]
