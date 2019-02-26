@@ -2,6 +2,8 @@
 
 ## master
 
+## v0.4.0
+
 - Fixes the date fields in receipt should be parsed as a `DateTime` in UTC.
 - Drop Support for Elixir 1.4 and 1.5.
 
