@@ -2,6 +2,9 @@
 
 ## master
 
+- Regenerate the `ReceiptModule` with `:asn1` 5.0.9.
+- Update minimal requirement to Erlang 21.
+
 ## v0.4.0
 
 - Fixes the date fields in receipt should be parsed as a `DateTime` in UTC.
