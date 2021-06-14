@@ -38,6 +38,10 @@ See [CHANGELOG.md](CHANGELOG.md)
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/linjunpop/receipt_decoder.
 
+### Development
+
+Run `$ mix receipt_decoder.compile_asn1` to compile the [ReceiptModule.asn1](./asn1/ReceiptModule.asn1) to Erlang modules in the directory: [src](./src)
+
 ## See also
 
 - [ReceiptVerifier](https://github.com/linjunpop/receipt_verifier) - verify the receipt with App Store

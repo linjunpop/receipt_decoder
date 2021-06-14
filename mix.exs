@@ -16,21 +16,22 @@ defmodule ReceiptDecoder.Mixfile do
       source_url: "https://github.com/linjunpop/receipt_decoder",
       homepage_url: "https://github.com/linjunpop/receipt_decoder",
       docs: docs(),
-      dialyzer: [plt_add_apps: [:mix, :public_key, :asn1]]
+      dialyzer: [plt_add_apps: [:mix, :public_key, :asn1]],
+      xref: [exclude: [:asn1ct]]
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:public_key, :logger]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.21", only: [:dev, :docs]},
       {:benchee, "~> 1.0", only: [:dev, :test]}
