@@ -2,6 +2,8 @@
 
 ## master
 
+## v0.5.0
+
 - Regenerate the `ReceiptModule` with `:asn1` 5.0.16.
 - Update minimal requirement to OTP 21 & Elixir 1.10.
 
