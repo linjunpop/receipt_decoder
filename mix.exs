@@ -7,7 +7,7 @@ defmodule ReceiptDecoder.Mixfile do
     [
       app: :receipt_decoder,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.10",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),

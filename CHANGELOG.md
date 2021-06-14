@@ -2,8 +2,8 @@
 
 ## master
 
-- Regenerate the `ReceiptModule` with `:asn1` 5.0.9.
-- Update minimal requirement to Erlang 21.
+- Regenerate the `ReceiptModule` with `:asn1` 5.0.16.
+- Update minimal requirement to OTP 21 & Elixir 1.10.
 
 ## v0.4.0
 
