@@ -1,10 +1,12 @@
 # ReceiptDecoder
 
-Decode iOS App receipt
-
 ![CI](https://github.com/linjunpop/receipt_decoder/actions/workflows/ci.yml/badge.svg)
 [![codebeat badge](https://codebeat.co/badges/55bc18a1-1ea8-4dda-b844-7e534c24fc66)](https://codebeat.co/projects/github-com-linjunpop-receipt_decoder-master)
 [![Hex.pm](https://img.shields.io/hexpm/v/receipt_decoder.svg?maxAge=2592000)](https://hex.pm/packages/receipt_decoder)
+
+This is a package to decode iOS App receipt.
+
+Please check [AppStore](https://github.com/linjunpop/app_store) for a package for the new App Store Server API.
 
 ## Installation
 
@@ -45,3 +47,5 @@ Run `$ mix receipt_decoder.compile_asn1` to compile the [ReceiptModule.asn1](./a
 ## See also
 
 - [ReceiptVerifier](https://github.com/linjunpop/receipt_verifier) - verify the receipt with App Store
+- [AppStore](https://github.com/linjunpop/app_store) - a package for the new App Store Server API
+
