@@ -2,6 +2,8 @@
 
 ## master
 
+- Require Elixir 1.13.
+
 ## v0.5.0
 
 - Regenerate the `ReceiptModule` with `:asn1` 5.0.16.
