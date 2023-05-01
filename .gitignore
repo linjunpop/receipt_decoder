@@ -23,3 +23,5 @@ src/ReceiptModule.asn1db
 
 .vscode
 .elixir_ls
+
+.tool-versions
