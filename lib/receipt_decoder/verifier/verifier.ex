@@ -118,7 +118,9 @@ defmodule ReceiptDecoder.Verifier do
     public_key = extract_public_key(itunes_cert)
 
     with {:ok, payload} <- Extractor.extract_payload(receipt),
-         true <- :public_key.verify(payload, :sha, signature, public_key) do
+         true <-
+           :public_key.verify(payload, :sha256, signature, public_key) or
+             :public_key.verify(payload, :sha, signature, public_key) do
       :ok
     else
       false ->
