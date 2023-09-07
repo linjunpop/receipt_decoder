@@ -2,6 +2,7 @@
 
 ## master
 
+- Support SHA256 signatures(with a fallback to SHA) in `ReceiptDecoder.Verifier`
 - Require Elixir 1.13.
 
 ## v0.5.0
