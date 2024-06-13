@@ -7,13 +7,13 @@ defmodule Mix.Tasks.ReceiptDecoder.CompileAsn1 do
 
   @impl true
   def run(_args) do
-    mod = 'asn1/ReceiptModule.asn1'
+    # mod = ~c"asn1/ReceiptModule.asn1"
 
-    :asn1ct.compile(mod, [
+    :asn1ct.compile(~c"asn1/ReceiptModule.asn1", [
       :ber,
       :der,
       :noobj,
-      {:outdir, 'src'}
+      {:outdir, ~c"src"}
     ])
   end
 end
