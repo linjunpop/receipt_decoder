@@ -2,6 +2,9 @@
 
 ## master
 
+- Support Elixir 1.17 and OTP 27.
+- Require Elixir 1.15.
+
 ## v0.6.0
 
 - Support SHA256 signatures(with a fallback to SHA) in `ReceiptDecoder.Verifier`
