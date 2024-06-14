@@ -2,6 +2,8 @@
 
 ## master
 
+## v0.7.0
+
 - Support Elixir 1.17 and OTP 27.
 - Require Elixir 1.15.
 

@@ -16,7 +16,7 @@ of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:receipt_decoder, "~> 0.6.0"}
+    {:receipt_decoder, "~> 0.7.0"}
   ]
 end
 ```
@@ -48,4 +48,3 @@ Run `$ mix receipt_decoder.compile_asn1` to compile the [ReceiptModule.asn1](./a
 
 - [ReceiptVerifier](https://github.com/linjunpop/receipt_verifier) - verify the receipt with App Store
 - [AppStore](https://github.com/linjunpop/app_store) - a package for the new App Store Server API
-
